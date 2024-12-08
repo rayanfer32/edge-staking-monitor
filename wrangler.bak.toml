@@ -1,0 +1,20 @@
+name = "edge-staking-monitor"
+main = "src/worker.js"
+compatibility_date = "2024-12-07"
+workers_dev = true
+preview_urls = false
+
+[triggers]
+crons = [ "*/5 * * * *" ]
+
+[version_metadata]
+binding = "CF_VERSION_METADATA"
+
+[vars]
+BOT_TOKEN = '1117214369:AAH0RiSBLSjSwBZyPKCuEIEEnP6Q0W-raWQ'
+CHAT_ID = '628650705'
+EXPLORER_BASE_URL = 'https://xe.network/node'
+EDGE_NODES = [ 
+    { name = 'Oracle-Ampere-ARM64', address = 'xe_5735B370966F56786A8b0dd6e498754d4cB99141' },
+    { name = 'Oracle-x86', address = 'xe_7743620862fBb2f3E989C21021BcB6a21F6e2720' }
+]

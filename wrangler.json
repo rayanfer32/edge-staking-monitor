@@ -1,0 +1,45 @@
+{
+	"name": "edge-staking-monitor",
+	"main": "src/worker.js",
+	"compatibility_date": "2024-12-07",
+	"workers_dev": true,
+	"preview_urls": false,
+	"triggers": {
+		"crons": ["*/5 * * * *"]
+	},
+	"version_metadata": {
+		"binding": "CF_VERSION_METADATA"
+	},
+	"vars": {
+		"BOT_TOKEN": "1117214369:AAH0RiSBLSjSwBZyPKCuEIEEnP6Q0W-raWQ",
+		"CHAT_ID": "628650705",
+		"EXPLORER_BASE_URL": "https://xe.network/node",
+		"EDGE_NODES": [
+			{
+				"name": "Rayan's Oracle Ampere",
+				"address": "xe_5735B370966F56786A8b0dd6e498754d4cB99141",
+				"wallet": "xe_e6a831c34b9607dA9dD835124BBe460aCD0A1D65"
+			},
+			{
+				"name": "Rayan's Oracle x64",
+				"address": "xe_7743620862fBb2f3E989C21021BcB6a21F6e2720",
+				"wallet": "xe_e6a831c34b9607dA9dD835124BBe460aCD0A1D65"
+			},
+			{
+				"name": "Ronson's Pi 4",
+				"address": "xe_96Bc57aC46428dcCdf9f09a913cFB4e5B3c51872",
+				"wallet": "xe_717D26DDC00f7bba9C3bd2A18445Bb2e9fb32A61"
+			},
+			{
+				"name": "Arun's Ampere",
+				"address": "xe_95F105d456280B20936E0e3f094c42776f771249",
+				"wallet": "xe_311d917e4056921646ddfa0443E8dBa21F3F3942"
+			},
+			{
+				"name": "Arun's Pi 5",
+				"address": "xe_47A596d284952e2584C0561274Dc22D788bF4351",
+				"wallet": "xe_311d917e4056921646ddfa0443E8dBa21F3F3942"
+			}
+		]
+	}
+}

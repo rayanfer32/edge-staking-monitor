@@ -1,27 +1,9 @@
-/**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run "npm run dev" in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run "npm run deploy" to publish your worker
- *
- * Learn more at https://developers.cloudflare.com/workers/
- */
 import index_html from './index.html';
-const BOT_TOKEN = '1117214369:AAH0RiSBLSjSwBZyPKCuEIEEnP6Q0W-raWQ';
-const CHAT_ID = '628650705';
-const MESSAGE = 'Hello, this is a test message from edge staking monitor!';
-
-const linkBaseUrl = 'https://xe.network/node';
-const EDGE_NODES = [
-	{ name: 'Oracle-Ampere-ARM64', address: 'xe_5735B370966F56786A8b0dd6e498754d4cB99141' },
-	{ name: 'Oracle-x86', address: 'xe_7743620862fBb2f3E989C21021BcB6a21F6e2720' },
-];
-
-// Add link property to each object
-EDGE_NODES.forEach((node) => {
-	node.link = `${linkBaseUrl}/${node.address}`;
-});
+import wranglerJson from '../wrangler.json';
+let BOT_TOKEN;
+let CHAT_ID;
+let EXPLORER_BASE_URL;
+let EDGE_NODES;
 
 async function sendTelegramMessage(chatId, message) {
 	const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
@@ -91,11 +73,28 @@ async function scanNodes() {
 
 export default {
 	async fetch(event, env, ctx) {
+		console.log({ event, env, ctx });
+
+		if (event.method === 'POST') {
+			let msg = '✅ This is a test message that you triggered from the worker.'
+			await sendTelegramMessage(CHAT_ID, msg);
+			return new Response(msg);
+		}
+
+		BOT_TOKEN = env.BOT_TOKEN;
+		CHAT_ID = env.CHAT_ID;
+		EXPLORER_BASE_URL = env.EXPLORER_BASE_URL;
+		EDGE_NODES = env.EDGE_NODES;
+		// * Add link property to each object
+		EDGE_NODES.forEach((node) => {
+			node.link = `${EXPLORER_BASE_URL}/${node.address}`;
+		});
+
 		let nodesInfo = await scanNodes();
 
 		return new Response(
-				`<script>
-      window.pageProps=${JSON.stringify({ nodesInfo })}
+			`<script>
+      window.pageProps=${JSON.stringify({ nodesInfo, triggers: wranglerJson.triggers })}
       console.log(window.pageProps)
     </script>` + index_html,
 			{
