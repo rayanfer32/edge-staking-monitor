@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Edge staking monitor</title>
+		<script src="https://cdn.twind.style"></script>
+	</head>
+	<body class="min-h-screen bg-gray-100">
+		<div class="container mx-auto p-4">
+			<div class="flex gap-4 items-center mb-6">
+				<img src="https://xe.network/logo.svg" alt="edge-logo" />
+				<h1 class="text-3xl font-bold">Edge Status Dashboard</h1>
+			</div>
+			<div id="node-card-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+		</div>
+
+		<script>
+			// Format bytes utility
+			function formatBytes(bytes) {
+				const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+				if (bytes === 0) return '0 Byte';
+				const i = Math.floor(Math.log(bytes) / Math.log(1024));
+				return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
+			}
+
+			// Create the Node Card
+			function createNodeCard(data) {
+				const { node, nodeResponse, message } = data;
+
+				const container = document.createElement('div');
+				container.className = 'bg-white shadow-lg rounded-lg overflow-hidden';
+
+				// Header
+				const header = document.createElement('div');
+				header.className = 'p-4 border-b';
+
+				const headerContent = `
+                  <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold">${node.name}</h2>
+                    <span class="px-2 py-1 rounded-full text-sm ${
+											nodeResponse.online ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'
+										}">
+                      ${nodeResponse.online ? 'Online' : 'Offline'}
+                    </span>
+                  </div>
+                  <p class="text-gray-600 mt-1">${message}</p>
+                `;
+				header.innerHTML = headerContent;
+				container.appendChild(header);
+
+				// Body
+				const body = document.createElement('div');
+				body.className = 'p-4 grid grid-cols-2 gap-4';
+
+				body.innerHTML = `
+                  <div>
+                    <h3 class="font-semibold mb-2 flex items-center"><i data-lucide="server" class="lucide lucide-server mr-2"></i> Node Info</h3>
+                    <p>Type: ${nodeResponse.node.type}</p>
+                    <p>Arch: ${nodeResponse.node.arch}</p>
+                    <p>Version: ${nodeResponse.node.version}</p>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold mb-2 flex items-center"><i data-lucide="activity" class="lucide lucide-activity mr-2"></i> Metrics</h3>
+                    <p>Uptime: ${(nodeResponse.availability * 100).toFixed(2)} %</p>
+                    <p>Messages: ${nodeResponse.metrics.messages}</p>
+                    <p>CDN Requests: ${nodeResponse.metrics.cdn.requests}</p>
+                    <p>Data In: ${formatBytes(nodeResponse.metrics.cdn.data.in)}</p>
+                    <p>Data Out: ${formatBytes(nodeResponse.metrics.cdn.data.out)}</p>
+                  </div>
+                  <div class="col-span-2">
+                    <h3 class="font-semibold mb-2 flex items-center"><i data-lucide="map-pin" class="lucide lucide-map-pin mr-2"></i> Location</h3>
+                    <p>${nodeResponse.node.geo.city}, ${nodeResponse.node.geo.country} (${nodeResponse.node.geo.countryCode})</p>
+                    <p>Lat: ${nodeResponse.node.geo.lat}, Lng: ${nodeResponse.node.geo.lng}</p>
+                  </div>
+                `;
+				container.appendChild(body);
+
+				// Footer
+				const footer = document.createElement('div');
+				footer.className = 'p-4 bg-gray-50 flex justify-between items-center';
+
+				const lastActive = new Date(nodeResponse.lastActive).toLocaleString();
+
+				footer.innerHTML = `
+                  <div class="flex items-center">
+                    <i data-lucide="clock" class="lucide lucide-clock mr-2"></i>
+                    <span>Last Active: ${lastActive}</span>
+                  </div>
+                  <a href="${node.link}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline flex items-center">
+                    <i data-lucide="globe" class="lucide  mr-1"></i> View Details
+                  </a>
+                `;
+				container.appendChild(footer);
+
+				return container;
+			}
+
+			// Render the Node Card
+			const container = document.getElementById('node-card-container');
+
+			window.pageProps.nodesInfo.forEach((data) => {
+				const nodeCard = createNodeCard(data);
+				container.appendChild(nodeCard);
+			});
+		</script>
+
+		<script src="https://unpkg.com/lucide@latest"></script>
+		<script>
+			lucide.createIcons();
+		</script>
+	</body>
+</html>
