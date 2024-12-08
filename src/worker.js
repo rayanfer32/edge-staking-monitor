@@ -5,6 +5,17 @@ let CHAT_ID;
 let EXPLORER_BASE_URL;
 let EDGE_NODES;
 
+function initGlobalVars(env) {
+	BOT_TOKEN = env.BOT_TOKEN;
+	CHAT_ID = env.CHAT_ID;
+	EXPLORER_BASE_URL = env.EXPLORER_BASE_URL;
+	EDGE_NODES = env.EDGE_NODES;
+	// * Add link property to each object
+	EDGE_NODES.forEach((node) => {
+		node.link = `${EXPLORER_BASE_URL}/${node.address}`;
+	});
+}
+
 async function sendTelegramMessage(chatId, message) {
 	const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
@@ -73,22 +84,14 @@ async function scanNodes() {
 
 export default {
 	async fetch(event, env, ctx) {
+		initGlobalVars(env);
 		console.log({ event, env, ctx });
 
 		if (event.method === 'POST') {
-			let msg = '✅ This is a test message that you triggered from the worker.'
+			let msg = '✅ This is a test message that you triggered from the worker.';
 			await sendTelegramMessage(CHAT_ID, msg);
 			return new Response(msg);
 		}
-
-		BOT_TOKEN = env.BOT_TOKEN;
-		CHAT_ID = env.CHAT_ID;
-		EXPLORER_BASE_URL = env.EXPLORER_BASE_URL;
-		EDGE_NODES = env.EDGE_NODES;
-		// * Add link property to each object
-		EDGE_NODES.forEach((node) => {
-			node.link = `${EXPLORER_BASE_URL}/${node.address}`;
-		});
 
 		let nodesInfo = await scanNodes();
 
@@ -105,10 +108,14 @@ export default {
 		);
 	},
 	async scheduled(event, env, ctx) {
+		initGlobalVars(env);
 		let nodesInfo = await scanNodes();
 		// * send notification only when node is offline
-		let finalMsg = nodesInfo.filter((node) => node.message.toLowerCase().includes('offline')).join('\r\n');
+		let finalMsg = nodesInfo
+			.filter((node) => node.message.toLowerCase().includes('offline'))
+			.map((node) => node.message)
+			.join('\n');
 		await sendTelegramMessage(CHAT_ID, finalMsg);
-		return new Response(JSON.stringify(messages));
+		return new Response(JSON.stringify(finalMsg));
 	},
 };
