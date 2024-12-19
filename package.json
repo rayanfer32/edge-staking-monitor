@@ -1,13 +1,15 @@
 {
-  "name": "edge-staking-monitor",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "deploy": "wrangler deploy",
-    "dev": "wrangler dev",
-    "start": "wrangler dev"
-  },
-  "devDependencies": {
-    "wrangler": "^3.60.3"
-  }
+	"name": "edge-staking-monitor",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"deploy": "wrangler deploy",
+		"dev": "wrangler dev",
+		"start": "wrangler dev",
+		"test-scheduled": "npx wrangler dev --test-scheduled",
+		"launch-scheduled": "www-launch http://localhost:8787/__scheduled?cron=*+*+*+*+*"
+	},
+	"devDependencies": {
+		"wrangler": "^3.60.3"
+	}
 }

@@ -85,7 +85,6 @@ async function scanNodes() {
 export default {
 	async fetch(event, env, ctx) {
 		initGlobalVars(env);
-		console.log({ event, env, ctx });
 
 		if (event.method === 'POST') {
 			let msg = '✅ This is a test message that you triggered from the worker.';
@@ -108,14 +107,18 @@ export default {
 		);
 	},
 	async scheduled(event, env, ctx) {
+		console.log('Running scheduled function');
+		
 		initGlobalVars(env);
 		let nodesInfo = await scanNodes();
+		// console.log('nodesInfo', nodesInfo);
 		// * send notification only when node is offline
 		let finalMsg = nodesInfo
-			.filter((node) => node.message.toLowerCase().includes('offline'))
+			.filter((node) => node.message.toLowerCase().includes('offline') && !(node.node.disableAlerts ?? false))
 			.map((node) => node.message)
 			.join('\n');
 		await sendTelegramMessage(CHAT_ID, finalMsg);
+		console.log('finalMsg', finalMsg);
 		return new Response(JSON.stringify(finalMsg));
 	},
 };

@@ -25,7 +25,7 @@
 					<span id="monitor-interval" class="px-2 py-1 rounded-full text-sm text-blue-500"></span>
 					<span id="bot-status " class="px-2 py-1 rounded-full text-sm bg-green-200 text-green-800">Online</span>
 					<span id="test-bot-button" class="px-2 py-1 rounded-full text-sm bg-blue-500 text-white cursor-pointer">Test Bot</span>
-					<button id="fetchWalletBalance" class="px-2 py-1 rounded-full text-sm bg-blue-500 text-white">Fetch Wallet Balance</button>
+					<!-- <button id="fetchWalletBalance" class="px-2 py-1 rounded-full text-sm bg-blue-500 text-white">Fetch Wallet Balance</button> -->
 				</div>
 			</div>
 		</div>
@@ -90,7 +90,7 @@
 			               <div class="col-span-2">
 			                 <h3 class="font-semibold mb-2 flex items-center"><i data-lucide="map-pin" class="lucide lucide-map-pin mr-2"></i> Location</h3>
 			                 <p class="mb-4">${nodeResponse.node.geo.city}, ${nodeResponse.node.geo.country} (${nodeResponse.node.geo.countryCode})</p>
-					<a class="bg-slate-500 hover:bg-blue-600 text-white p-2 rounded-full mt-2" href="https://www.google.com/maps?q=${
+					<a class="hover:bg-blue-600 p-2 rounded-full mt-2" href="https://www.google.com/maps?q=${
 						nodeResponse.node.geo.lat
 					},${nodeResponse.node.geo.lng}">Lat: ${nodeResponse.node.geo.lat}, Lng: ${nodeResponse.node.geo.lng}</a>
 			               </div>
@@ -171,7 +171,7 @@
 				});
 				let totalAmount = await Promise.all(totalAmounts);
 				Array.from($$('.amount-field')).forEach((item, index) => {
-					let walletBalanceEl = `<p class="amount-field font-semibold mb-2 flex items-center bg-green-200 text-green-800">Wallet Balance: $ ${totalAmount[index]} USD</p>`;
+					let walletBalanceEl = `<p class="amount-field p-2 font-semibold mb-2 flex items-center bg-green-200 text-green-800">Wallet Balance: $ ${totalAmount[index]} USD</p>`;
 					item.innerHTML = walletBalanceEl;
 				})
 			});
