@@ -12,7 +12,8 @@
 	},
 	"vars": {
 		"BOT_TOKEN": "1117214369:AAH0RiSBLSjSwBZyPKCuEIEEnP6Q0W-raWQ",
-		"CHAT_ID": "628650705",
+		"CHAT_ID": "-811577209",
+		"CHAT_IDS": ["628650705", "-811577209"],
 		"EXPLORER_BASE_URL": "https://xe.network/node",
 		"EDGE_NODES": [
 			{

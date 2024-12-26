@@ -44,7 +44,20 @@
 
 			// Create the Node Card
 			function createNodeCard(data) {
-				const { node, nodeResponse, message } = data;
+				const { node, nodeResponse: _nodeResponse, message } = data;
+
+				// * create a safe nested object
+				const nodeResponse = new Proxy(
+					_nodeResponse,
+					{
+						get(target, prop) {
+							if (!(prop in target)) {
+								target[prop] = new Proxy({}, this); // Return a new safe object
+							}
+							return target[prop];
+						},
+					}
+				);
 
 				const container = document.createElement('div');
 				container.className = 'bg-zinc-900 text-gray-200 shadow-lg rounded-lg overflow-hidden';
@@ -72,7 +85,7 @@
 				body.className = 'p-4 grid grid-cols-2 gap-4';
 
 				body.innerHTML = `
-						  
+
 			               <div>
 			                 <h3 class="font-semibold mb-2 flex items-center"><i data-lucide="server" class="lucide lucide-server mr-2"></i> Node Info</h3>
 			                 <p>Type: ${nodeResponse.node.type}</p>
@@ -90,9 +103,9 @@
 			               <div class="col-span-2">
 			                 <h3 class="font-semibold mb-2 flex items-center"><i data-lucide="map-pin" class="lucide lucide-map-pin mr-2"></i> Location</h3>
 			                 <p class="mb-4">${nodeResponse.node.geo.city}, ${nodeResponse.node.geo.country} (${nodeResponse.node.geo.countryCode})</p>
-					<a class="hover:bg-blue-600 p-2 rounded-full mt-2" href="https://www.google.com/maps?q=${
-						nodeResponse.node.geo.lat
-					},${nodeResponse.node.geo.lng}">Lat: ${nodeResponse.node.geo.lat}, Lng: ${nodeResponse.node.geo.lng}</a>
+					<a class="hover:bg-blue-600 p-2 rounded-full mt-2" href="https://www.google.com/maps?q=${nodeResponse.node.geo.lat},${
+					nodeResponse.node.geo.lng
+				}">Lat: ${nodeResponse.node.geo.lat}, Lng: ${nodeResponse.node.geo.lng}</a>
 			               </div>
 
 						    <div>
@@ -173,7 +186,7 @@
 				Array.from($$('.amount-field')).forEach((item, index) => {
 					let walletBalanceEl = `<p class="amount-field p-2 font-semibold mb-2 flex items-center bg-green-200 text-green-800">Wallet Balance: $ ${totalAmount[index]} USD</p>`;
 					item.innerHTML = walletBalanceEl;
-				})
+				});
 			});
 		</script>
 

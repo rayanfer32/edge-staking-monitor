@@ -4,10 +4,12 @@ let BOT_TOKEN;
 let CHAT_ID;
 let EXPLORER_BASE_URL;
 let EDGE_NODES;
+let CHAT_IDS;
 
 function initGlobalVars(env) {
 	BOT_TOKEN = env.BOT_TOKEN;
 	CHAT_ID = env.CHAT_ID;
+	CHAT_IDS = env.CHAT_IDS;
 	EXPLORER_BASE_URL = env.EXPLORER_BASE_URL;
 	EDGE_NODES = env.EDGE_NODES;
 	// * Add link property to each object
@@ -108,7 +110,7 @@ export default {
 	},
 	async scheduled(event, env, ctx) {
 		console.log('Running scheduled function');
-		
+
 		initGlobalVars(env);
 		let nodesInfo = await scanNodes();
 		// console.log('nodesInfo', nodesInfo);
