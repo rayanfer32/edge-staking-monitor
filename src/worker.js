@@ -75,9 +75,9 @@ async function scanNodes() {
 		let message = '';
 		let node = EDGE_NODES[index];
 		if (nodeResponse.online) {
-			message = `🟩 ${node.name} is Online!`;
+			message = `✅ ${node.name} is Online!`;
 		} else {
-			message = `🟥 ${node.name} is Offline, Please restart the node.`;
+			message = `⛔ ${node.name} is Offline, Please restart the node.`;
 		}
 		nodesInfo.push({ node, nodeResponse, message });
 	});
