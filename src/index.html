@@ -11,7 +11,7 @@
 			}
 		</style>
 	</head>
-	<body class="min-h-screen bg-zinc-700 text-gray-100">
+	<body class="min-h-screen text-zinc-700 bg-gray-100">
 		<div class="container mx-auto p-4">
 			<div class="flex gap-4 items-center mb-6">
 				<img src="https://xe.network/logo.svg" alt="edge-logo" />
@@ -19,7 +19,7 @@
 			</div>
 
 			<div id="node-card-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-				<div class="flex gap-2 flex-col items-center p-2 bg-zinc-900 text-gray-200 shadow-lg rounded-lg">
+				<div class="flex gap-2 flex-col items-center p-2 text-zinc-900 bg-gray-50 shadow-lg rounded-lg">
 					<span class="font-semibold">Telegram Notification Bot Status:</span>
 					<span id="botname" class="px-2 py-1 rounded-full text-sm text-blue-500">Rocketshot bot</span>
 					<span id="monitor-interval" class="px-2 py-1 rounded-full text-sm text-blue-500"></span>
@@ -44,23 +44,11 @@
 
 			// Create the Node Card
 			function createNodeCard(data) {
-				const { node, nodeResponse: _nodeResponse, message } = data;
+				const { node, nodeResponse, message } = data;
 
-				// * create a safe nested object
-				const nodeResponse = new Proxy(
-					_nodeResponse,
-					{
-						get(target, prop) {
-							if (!(prop in target)) {
-								target[prop] = new Proxy({}, this); // Return a new safe object
-							}
-							return target[prop];
-						},
-					}
-				);
 
 				const container = document.createElement('div');
-				container.className = 'bg-zinc-900 text-gray-200 shadow-lg rounded-lg overflow-hidden';
+				container.className = 'text-zinc-900 bg-gray-50 shadow-lg rounded-lg overflow-hidden';
 
 				// Header
 				const header = document.createElement('div');
@@ -94,11 +82,11 @@
 			               </div>
 			               <div>
 			                 <h3 class="font-semibold mb-2 flex items-center"><i data-lucide="activity" class="lucide lucide-activity mr-2"></i> Metrics</h3>
-			                 <p>Uptime: ${(nodeResponse.availability * 100).toFixed(2)} %</p>
-			                 <p>Messages: ${nodeResponse.metrics.messages}</p>
-			                 <p>CDN Requests: ${nodeResponse.metrics.cdn.requests}</p>
-			                 <p>Data In: ${formatBytes(nodeResponse.metrics.cdn.data.in)}</p>
-			                 <p>Data Out: ${formatBytes(nodeResponse.metrics.cdn.data.out)}</p>
+			                 <p>Uptime: ${(nodeResponse?.availability * 100).toFixed(2)} %</p>
+			                 <p>Messages: ${nodeResponse.metrics?.messages}</p>
+			                 <p>CDN Requests: ${nodeResponse.metrics?.cdn?.requests}</p>
+			                 <p>Data In: ${formatBytes(nodeResponse.metrics?.cdn?.data?.in)}</p>
+			                 <p>Data Out: ${formatBytes(nodeResponse.metrics?.cdn?.data?.out)}</p>
 			               </div>
 			               <div class="col-span-2">
 			                 <h3 class="font-semibold mb-2 flex items-center"><i data-lucide="map-pin" class="lucide lucide-map-pin mr-2"></i> Location</h3>
@@ -117,7 +105,7 @@
 
 				// Footer
 				const footer = document.createElement('div');
-				footer.className = 'p-4 bg-gray-800 flex justify-between items-center';
+				footer.className = 'p-4 bg-gray-100 flex justify-between items-center';
 
 				const lastActive = new Date(nodeResponse.lastActive).toLocaleString();
 
