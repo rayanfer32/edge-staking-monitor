@@ -37,12 +37,6 @@
 				"wallet": "xe_311d917e4056921646ddfa0443E8dBa21F3F3942"
 			},
 			{
-				"name": "Bendoor Whale's Old node",
-				"address": "xe_47A596d284952e2584C0561274Dc22D788bF4351",
-				"wallet": "xe_311d917e4056921646ddfa0443E8dBa21F3F3942",
-				"disableAlerts": true
-			},
-			{
 				"name": "Bendoor Whale's Pi 1",
 				"address": "xe_bB6e80287967dA091f8664E82ceC12ec7B89Bf1f",
 				"wallet": "xe_187dA90F7CB5288913452f7d1B445f9B8fD17eDA"
