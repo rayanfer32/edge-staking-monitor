@@ -17,17 +17,17 @@
 		"EXPLORER_BASE_URL": "https://xe.network/node",
 		"EDGE_NODES": [
 			{
-				"name": "Poor man's Oracle Ampere",
+				"name": "Rayan's Oracle Ampere",
 				"address": "xe_5735B370966F56786A8b0dd6e498754d4cB99141",
 				"wallet": "xe_e6a831c34b9607dA9dD835124BBe460aCD0A1D65"
 			},
 			{
-				"name": "Poor man's Oracle x64",
+				"name": "Rayan's Oracle x64",
 				"address": "xe_7743620862fBb2f3E989C21021BcB6a21F6e2720",
 				"wallet": "xe_e6a831c34b9607dA9dD835124BBe460aCD0A1D65"
 			},
 			{
-				"name": "One Rich Neighbor's Pi 4",
+				"name": "Ronson's Pi 4",
 				"address": "xe_96Bc57aC46428dcCdf9f09a913cFB4e5B3c51872",
 				"wallet": "xe_717D26DDC00f7bba9C3bd2A18445Bb2e9fb32A61"
 			},
@@ -37,28 +37,28 @@
 				"wallet": "xe_311d917e4056921646ddfa0443E8dBa21F3F3942"
 			},
 			{
-				"name": "Bendoor Whale's Pi 5",
+				"name": "Bendoor Whale's Old node",
 				"address": "xe_47A596d284952e2584C0561274Dc22D788bF4351",
 				"wallet": "xe_311d917e4056921646ddfa0443E8dBa21F3F3942",
 				"disableAlerts": true
 			},
 			{
-				"name": "Pais'am 1",
+				"name": "Bendoor Whale's Pi 1",
 				"address": "xe_bB6e80287967dA091f8664E82ceC12ec7B89Bf1f",
 				"wallet": "xe_187dA90F7CB5288913452f7d1B445f9B8fD17eDA"
 			},
 			{
-				"name": "Pais'am 2",
+				"name": "Bendoor Whale's Pi 2",
 				"address": "xe_32008EC71bcf0e70e0B566Ef5950905E9dD74c6B",
 				"wallet": "xe_187dA90F7CB5288913452f7d1B445f9B8fD17eDA"
 			},
 			{
-				"name": "Pais'am 3",
+				"name": "Bendoor Whale's Pi 3",
 				"address": "xe_858f1e68e8d37E915857648c110128E9F40D0Bc0",
 				"wallet": "xe_187dA90F7CB5288913452f7d1B445f9B8fD17eDA"
 			},
 			{
-				"name": "Pais'am 4",
+				"name": "Bendoor Whale's Pi 4",
 				"address": "xe_E93Cbb7f864C0Ca5a82DCA1D8C8b51581357f770",
 				"wallet": "xe_187dA90F7CB5288913452f7d1B445f9B8fD17eDA"
 			}
