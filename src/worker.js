@@ -70,17 +70,13 @@ async function scanNodes() {
 	}
 	let allNodeStats = await Promise.all(EDGE_NODES.map((node) => getEdgeNodeStatus(node.address)));
 
-	let nodesInfo = [];
-	allNodeStats.forEach(async (nodeResponse, index) => {
-		let message = '';
-		let node = EDGE_NODES[index];
-		if (nodeResponse.online) {
-			message = `✅ ${node.name} is Online!`;
-		} else {
-			message = `⛔ ${node.name} is Offline, Please restart the node.`;
-		}
-		nodesInfo.push({ node, nodeResponse, message });
-	});
+	const nodesInfo = await Promise.all(allNodeStats.map(async (nodeResponse, index) => {
+		const node = EDGE_NODES[index];
+		const message = nodeResponse.online
+			? `✅ ${node.name} is Online!`
+			: `⛔ ${node.name} is Offline, Please restart the node.`;
+		return { node, nodeResponse, message };
+	}));
 	return nodesInfo;
 }
 

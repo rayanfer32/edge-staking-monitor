@@ -1,0 +1,31 @@
+{
+	"name": "edge-staking-monitor",
+	"main": "src/worker.js",
+	"compatibility_date": "2024-12-07",
+	"workers_dev": true,
+	"preview_urls": false,
+	"triggers": {
+		"crons": ["*/5 * * * *"]
+	},
+	"version_metadata": {
+		"binding": "CF_VERSION_METADATA"
+	},
+	"vars": {
+		"BOT_TOKEN": "<YOUR_BOT_TOKEN>",
+		"CHAT_ID": "<YOUR_CHAT_ID>",
+		"CHAT_IDS": [],
+		"EXPLORER_BASE_URL": "https://xe.network/node",
+		"EDGE_NODES": [
+			{
+				"name": "My Node 1",
+				"address": "NODE_ADDRESS",
+				"wallet": "WALLET_ADDRESS"
+			},
+			{
+				"name": "My Node 2",
+				"address": "NODE_ADDRESS",
+				"wallet": "WALLET_ADDRESS"
+			}
+		]
+	}
+}
