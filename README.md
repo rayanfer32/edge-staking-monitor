@@ -2,13 +2,15 @@
 
 This project monitors edge staking nodes using Cloudflare Workers.
 
+## Demo
+![edge-monitor-demo.jpg](images/edge-monitor-demo.jpg)
+
 ## Prerequisites
 
 *   **Node.js and npm:** Ensure Node.js and npm (or yarn) are installed on your system.
 *   **Cloudflare Account:** You'll need a Cloudflare account to deploy the worker.
 * **Telegram account to get notifications:** We will use telegram to recieve our notifications when the node goes offline
 * **Telegram bot token:** You can get it from https://t.me/botfather
-
 
 ## Setup
 
