@@ -1,6 +1,7 @@
 {
 	"name": "edge-staking-monitor",
 	"version": "0.0.0",
+	"account": "rayanf@hi2.in",
 	"private": true,
 	"scripts": {
 		"deploy": "wrangler deploy",
