@@ -34,6 +34,11 @@
 			const $ = (selector) => document.querySelector.bind(document)(selector);
 			const $$ = (selector) => document.querySelectorAll.bind(document)(selector);
 
+			// Check authentication on load
+			if (sessionStorage.getItem('authenticated') !== 'true') {
+				window.location.href = '/login';
+			}
+
 			// Format bytes utility
 			function formatBytes(bytes) {
 				const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -46,7 +51,6 @@
 			function createNodeCard(data) {
 				const { node, nodeResponse, message } = data;
 
-
 				const container = document.createElement('div');
 				container.className = 'text-zinc-900 bg-gray-50 shadow-lg rounded-lg overflow-hidden';
 
@@ -55,16 +59,14 @@
 				header.className = 'p-4 border-b';
 
 				const headerContent = `
-			               <div class="flex justify-between items-center">
-			                 <h2 class="text-2xl font-bold">${node.name}</h2>
-			                 <span class="px-2 py-1 rounded-full text-sm ${
-													nodeResponse.online ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'
-												}">
-			                   ${nodeResponse.online ? 'Online' : 'Offline'}
-			                 </span>
-			               </div>
-			               <p class="text-gray-600 mt-1">${message}</p>
-			             `;
+    <div class="flex justify-between items-center">
+      <h2 class="text-2xl font-bold">${node.name}</h2>
+      <span class="px-2 py-1 rounded-full text-sm ${nodeResponse.online ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'}">
+        ${nodeResponse.online ? 'Online' : 'Offline'}
+      </span>
+    </div>
+    <p class="text-gray-600 mt-1">${message}</p>
+  `;
 				header.innerHTML = headerContent;
 				container.appendChild(header);
 
@@ -73,34 +75,32 @@
 				body.className = 'p-4 grid grid-cols-2 gap-4';
 
 				body.innerHTML = `
-
-			               <div>
-			                 <h3 class="font-semibold mb-2 flex items-center"><i data-lucide="server" class="lucide lucide-server mr-2"></i> Node Info</h3>
-			                 <p>Type: ${nodeResponse.node.type}</p>
-			                 <p>Arch: ${nodeResponse.node.arch}</p>
-			                 <p>Version: ${nodeResponse.node.version}</p>
-			               </div>
-			               <div>
-			                 <h3 class="font-semibold mb-2 flex items-center"><i data-lucide="activity" class="lucide lucide-activity mr-2"></i> Metrics</h3>
-			                 <p>Uptime: ${(nodeResponse?.availability * 100).toFixed(2)} %</p>
-			                 <p>Messages: ${nodeResponse.metrics?.messages}</p>
-			                 <p>CDN Requests: ${nodeResponse.metrics?.cdn?.requests}</p>
-			                 <p>Data In: ${formatBytes(nodeResponse.metrics?.cdn?.data?.in)}</p>
-			                 <p>Data Out: ${formatBytes(nodeResponse.metrics?.cdn?.data?.out)}</p>
-			               </div>
-			               <div class="col-span-2">
-			                 <h3 class="font-semibold mb-2 flex items-center"><i data-lucide="map-pin" class="lucide lucide-map-pin mr-2"></i> Location</h3>
-			                 <p class="mb-4">${nodeResponse.node.geo.city}, ${nodeResponse.node.geo.country} (${nodeResponse.node.geo.countryCode})</p>
-					<a class="hover:bg-blue-600 p-2 rounded-full mt-2" href="https://www.google.com/maps?q=${nodeResponse.node.geo.lat},${
+    <div>
+      <h3 class="font-semibold mb-2 flex items-center"><i data-lucide="server" class="lucide lucide-server mr-2"></i> Node Info</h3>
+      <p>Type: ${nodeResponse.node.type}</p>
+      <p>Arch: ${nodeResponse.node.arch}</p>
+      <p>Version: ${nodeResponse.node.version}</p>
+    </div>
+    <div>
+      <h3 class="font-semibold mb-2 flex items-center"><i data-lucide="activity" class="lucide lucide-activity mr-2"></i> Metrics</h3>
+      <p>Uptime: ${(nodeResponse?.availability * 100).toFixed(2)} %</p>
+      <p>Messages: ${nodeResponse.metrics?.messages}</p>
+      <p>CDN Requests: ${nodeResponse.metrics?.cdn?.requests}</p>
+      <p>Data In: ${formatBytes(nodeResponse.metrics?.cdn?.data?.in)}</p>
+      <p>Data Out: ${formatBytes(nodeResponse.metrics?.cdn?.data?.out)}</p>
+    </div>
+    <div class="col-span-2">
+      <h3 class="font-semibold mb-2 flex items-center"><i data-lucide="map-pin" class="lucide lucide-map-pin mr-2"></i> Location</h3>
+      <p class="mb-4">${nodeResponse.node.geo.city}, ${nodeResponse.node.geo.country} (${nodeResponse.node.geo.countryCode})</p>
+      <a class="hover:bg-blue-600 p-2 rounded-full mt-2" href="https://www.google.com/maps?q=${nodeResponse.node.geo.lat},${
 					nodeResponse.node.geo.lng
 				}">Lat: ${nodeResponse.node.geo.lat}, Lng: ${nodeResponse.node.geo.lng}</a>
-			               </div>
-
-						    <div>
-								<p>Wallet Address: <code><b>${node.wallet}</b></code></p>
-								<p class="amount-field">Amount: Yet to be calculated (USD) </p>
-							</div>
-			             `;
+    </div>
+    <div>
+      <p>Wallet Address: <code><b>${node.wallet}</b></code></p>
+      <p class="amount-field">Amount: Yet to be calculated (USD) </p>
+    </div>
+  `;
 				container.appendChild(body);
 
 				// Footer
@@ -110,14 +110,14 @@
 				const lastActive = new Date(nodeResponse.lastActive).toLocaleString();
 
 				footer.innerHTML = `
-			               <div class="flex items-center">
-			                 <i data-lucide="clock" class="lucide lucide-clock mr-2"></i>
-			                 <span>Last Active: ${lastActive}</span>
-			               </div>
-			               <a href="${node.link}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline flex items-center">
-			                 <i data-lucide="globe" class="lucide  mr-1"></i> View Details
-			               </a>
-			             `;
+    <div class="flex items-center">
+      <i data-lucide="clock" class="lucide lucide-clock mr-2"></i>
+      <span>Last Active: ${lastActive}</span>
+    </div>
+    <a href="${node.link}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline flex items-center">
+      <i data-lucide="globe" class="lucide  mr-1"></i> View Details
+    </a>
+  `;
 				container.appendChild(footer);
 
 				return container;
@@ -150,6 +150,7 @@
 						console.error(error);
 					});
 			});
+
 			async function fetchWalletBalance(address) {
 				let response = await fetch(`https://index.xe.network/wallet/${address}`);
 				let data = await response.json();

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Login - Edge staking monitor</title>
+<script src="https://cdn.twind.style"></script>
+<style>
+:root {
+  font-family: monospace;
+}
+.loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+</style>
+</head>
+<body class="min-h-screen text-zinc-700 bg-gray-100 flex items-center justify-center">
+  <div id="login-form" class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+    <img src="https://xe.network/logo.svg" alt="edge-logo" class="mb-6 mx-auto" style="width: 120px;"/>
+    <h2 class="text-2xl font-bold mb-6 text-center">Edge Status Dashboard</h2>
+    <div class="mb-4">
+      <input type="password" id="password-input" class="w-full px-4 py-2 border rounded" placeholder="Enter password" />
+    </div>
+    <button id="submit-password" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Login</button>
+    <p id="error-message" class="text-red-500 mt-3 text-center hidden">Incorrect password</p>
+  </div>
+
+<script>
+const passwordInput = document.getElementById('password-input');
+const submitButton = document.getElementById('submit-password');
+const errorMessage = document.getElementById('error-message');
+const form = document.getElementById('login-form');
+
+async function login() {
+  errorMessage.classList.add('hidden');
+  form.classList.add('loading');
+
+  try {
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ password: passwordInput.value }),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      sessionStorage.setItem('authenticated', 'true');
+      window.location.href = '/';
+    } else {
+      errorMessage.classList.remove('hidden');
+      passwordInput.value = '';
+    }
+  } catch (error) {
+    errorMessage.textContent = 'Login failed. Please try again.';
+    errorMessage.classList.remove('hidden');
+  } finally {
+    form.classList.remove('loading');
+  }
+}
+
+submitButton.addEventListener('click', login);
+passwordInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    login();
+  }
+});
+</script>
+</body>
+</html>
