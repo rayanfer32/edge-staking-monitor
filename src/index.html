@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
@@ -93,8 +93,8 @@
       <h3 class="font-semibold mb-2 flex items-center"><i data-lucide="map-pin" class="lucide lucide-map-pin mr-2"></i> Location</h3>
       <p class="mb-4">${nodeResponse.node.geo.city}, ${nodeResponse.node.geo.country} (${nodeResponse.node.geo.countryCode})</p>
       <a class="hover:bg-blue-600 p-2 rounded-full mt-2" href="https://www.google.com/maps?q=${nodeResponse.node.geo.lat},${
-					nodeResponse.node.geo.lng
-				}">Lat: ${nodeResponse.node.geo.lat}, Lng: ${nodeResponse.node.geo.lng}</a>
+				nodeResponse.node.geo.lng
+			}">Lat: ${nodeResponse.node.geo.lat}, Lng: ${nodeResponse.node.geo.lng}</a>
     </div>
     <div>
       <p>Wallet Address: <code><b>${node.wallet}</b></code></p>
@@ -152,13 +152,13 @@
 			});
 
 			async function fetchWalletBalance(address) {
-				let response = await fetch(`https://index.xe.network/wallet/${address}`);
+				let response = await fetch(`https://index.edge.network/wallet/${address}`);
 				let data = await response.json();
 				return data;
 			}
 
 			async function getUSDPrice() {
-				return (await (await fetch('https://index.xe.network/token/daily?count=1')).json())[0].usdPerXE;
+				return (await (await fetch('https://index.edge.network/token/daily?count=1')).json())[0].usdPerXE;
 			}
 
 			// * handle fetch wallet balance button
