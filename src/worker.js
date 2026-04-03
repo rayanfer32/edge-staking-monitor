@@ -61,7 +61,7 @@ async function sendTelegramMessage(chatId, message) {
 
 async function scanNodes() {
 	async function getEdgeNodeStatus(address) {
-		let response = await fetch(`https://index.xe.network/session/${address}`, {
+		let response = await fetch(`https://index.edge.network/session/${address}`, {
 			headers: {
 				accept: '*/*',
 				'cache-control': 'no-cache',
